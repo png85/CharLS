@@ -45,6 +45,7 @@ if(CharLS_BUILD_SHARED_LIB)
                                             SOVERSION ${CharLS_VERSION_MAJOR})
   endif(UNIX)
   install(TARGETS CharLS LIBRARY DESTINATION lib
+                         ARCHIVE DESTINATION lib
                          RUNTIME DESTINATION bin)
 else(CharLS_BUILD_SHARED_LIB)
   if(WIN32)
