@@ -65,4 +65,7 @@ if(BUILD_TESTING)
   add_executable(CharLS-test test/main.cpp test/time.cpp test/util.cpp test/bitstreamdamage.cpp
                              test/compliance.cpp test/performance.cpp test/dicomsamples.cpp)
   target_link_libraries(CharLS-test CharLS)
+  add_test(unittest ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/CharLS-test "-dontwait" "-unittest")
+  add_test(bitstreamdamage ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/CharLS-test "-dontwait" "-bitstreamdamage")
+  add_test(performance ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/CharLS-test "-dontwait" "-performance")
 endif(BUILD_TESTING)
