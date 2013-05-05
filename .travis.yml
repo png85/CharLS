@@ -6,10 +6,13 @@ compiler:
 script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. -DCMAKE_BUILD_TYPE=Debug
   - cmake --build . --target all --
-  - cmake --build . --target package --
-  - cmake --build . --target package_source --
+
+  - cmake --build . --target clean --
+
+  - cmake .. -DCMAKE_BUILD_TYPE=Release
+  - cmake --build . --target all --
 
 after_script:
   - ctest
