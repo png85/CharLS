@@ -17,7 +17,7 @@ public:
 	explicit EncoderStrategy(const JlsParameters& info) :
 		 _qdecoder(0),
 		 _info(info),
-		 _processLine(0),
+         _processLine(nullptr),
  		 valcurrent(0),
 		 bitpos(0),
 		 _isFFWritten(false),
@@ -144,7 +144,11 @@ protected:
 
 protected:
 	JlsParameters _info;
+#ifdef HAS_CXX11_UNIQUE_PTR
+    std::unique_ptr<ProcessLine> _processLine;
+#else
 	std::auto_ptr<ProcessLine> _processLine;
+#endif
 private:
 
 	unsigned int valcurrent;

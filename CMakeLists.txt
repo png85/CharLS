@@ -3,6 +3,7 @@
 #
 project(CharLS)
 cmake_minimum_required(VERSION 2.6)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules")
 
 option(CharLS_BUILD_AS_SUBMODULE "Build CharLS as git submodule?" OFF)
 option(CharLS_BUILD_SHARED_LIB "Build CharLS as shared library?" ON)
@@ -13,7 +14,33 @@ option(CharLS_BUILD_TESTS "Build test binaries for CharLS?" ON)
 # Version info
 set(CharLS_VERSION_MAJOR 1)
 set(CharLS_VERSION_MINOR 0)
-set(CharLS_VERSION_PATCH 2)
+set(CharLS_VERSION_PATCH 3)
+
+#
+# Enable C++11 for GCC builds
+if(CMAKE_COMPILER_IS_GNUCXX)
+    include(CheckCXXCompilerFlag)
+    check_cxx_compiler_flag("-std=c++11" GCC_stdcxx11)
+    check_cxx_compiler_flag("-std=c++0x" GCC_stdcxx0x)
+
+    if(GCC_stdcxx11)
+        # Compiler supports -std=c++11
+        message(STATUS "Using -std=c++11 to enable C++11 in GCC")
+        add_definitions(-std=c++11)
+    elseif(GCC_stdcxx0x)
+        # Compiler doesn't support -std=c++11 but -std=c++0x
+        message(STATUS "Using -std=c++0x to enable C++11 in GCC")
+        add_definitions(-std=c++0x)
+    else()
+        # Neither -std=c++11 nor -std=c++0x are supported
+        message(WARNING "Failed to determine C++11 flag for GCC :-(")
+    endif()
+endif(CMAKE_COMPILER_IS_GNUCXX)
+
+include(CheckCXX11Features)
+foreach(flag ${CXX11_FEATURE_LIST})
+  add_definitions(-D${flag})
+endforeach()
 
 
 if(NOT CharLS_BUILD_AS_SUBMODULE)

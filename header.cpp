@@ -530,7 +530,11 @@ int JLSInputStream::ReadWord()
 
 void JLSInputStream::ReadScan(void* pvout) 
 {
+#ifdef HAS_CXX11_UNIQUE_PTR
+    std::unique_ptr<DecoderStrategy> qcodec(JlsCodecFactory<DecoderStrategy>().GetCodec(_info, _info.custom));
+#else
 	std::auto_ptr<DecoderStrategy> qcodec = JlsCodecFactory<DecoderStrategy>().GetCodec(_info, _info.custom);
+#endif
 	
 	_cbyteOffset += qcodec->DecodeScan(pvout, _rect, _pdata + _cbyteOffset, _cbyteLength - _cbyteOffset, _bCompare); 
 }
