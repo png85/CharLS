@@ -29,6 +29,7 @@ if(NOT CharLS_BUILD_AS_SUBMODULE)
         set(CPACK_GENERATOR "TGZ;TBZ2")
         set(CPACK_SOURCE_GENERATOR "TGZ;TBZ2")
     endif(WIN32)
+    include(CPack)
 endif(NOT CharLS_BUILD_AS_SUBMODULE)
 
 
